@@ -1,4 +1,3 @@
-let a = "here"
 const API_KEY = '55c2fecd650724ce09bf1acb1efb65d5';
 const BASE_URL = 'https://api.openweathermap.org';
 
@@ -103,6 +102,9 @@ function getData() {
 
   //Set up the html elements for the information from the API after button click! 
 function showWeather() {
+
+  getData();
+
   let weatherDiv = document.createElement('div');
   main.appendChild(weatherDiv);
   weatherDiv.className = "m-5 text-center";
@@ -114,7 +116,7 @@ function showWeather() {
   cityDiv.className = "display-3 mt-5";
   weatherDiv.appendChild(cityDiv);
   let cityTag = document.createElement('h2');
-  let cityText = document.createTextNode("city name");
+  let cityText = document.createTextNode(`${state.city}`);
   cityDiv.appendChild(cityTag.appendChild(cityText));
   cityTag.className;
 
@@ -125,28 +127,73 @@ function showWeather() {
   tempDiv.className = "d-flex flex-row justify-content-evenly display-5 mt-5 mb-5";
   weatherDiv.appendChild(tempDiv);
   let kelvinDiv = document.createElement('div');
-  kelvinDiv.className = 'col-3';
+  kelvinDiv.className = 'col-4';
   tempDiv.appendChild(kelvinDiv);
-  let kText = document.createTextNode(`Ktemp`);
+  let kText = document.createTextNode(`${state.temperature.kelvin}`);
   kelvinDiv.appendChild(kText);
   let fahrenheitDiv = document.createElement('div');
-  fahrenheitDiv.className = 'col-3';
+  fahrenheitDiv.className = 'col-4';
   tempDiv.appendChild(fahrenheitDiv);
-  let fText = document.createTextNode(`Ftemp`);
+  let fText = document.createTextNode(`${state.temperature.fahrenheit}`);
   fahrenheitDiv.appendChild(fText);
   let celsiusDiv = document.createElement('div');
-  celsiusDiv.className = 'col-3';
+  celsiusDiv.className = 'col-4';
   tempDiv.appendChild(celsiusDiv);
-  let cText = document.createTextNode(`ctemp`);
+  let cText = document.createTextNode(`${state.temperature.celsius}`);
   celsiusDiv.appendChild(cText);
   
 
   //condition div
   //add main condition
   //add condition description
+  let wConditionDiv = document.createElement('div');
+  weatherDiv.appendChild(wConditionDiv);
+  wConditionDiv.className;
+  let conDiv = document.createElement('div');
+  wConditionDiv.appendChild(conDiv);
+  conDiv.className;
+  let conText = document.createTextNode(`${state.weatherCondition}`);
+  conDiv.appendChild(conText);
+
+  //outter div for weather condition
+  let wConditionDesDiv = document.createElement('div');
+  weatherDiv.appendChild(wConditionDesDiv);
+  wConditionDesDiv.className;
+  //inner div for weather condition description
+  let conDesDiv = document.createElement('div');
+  wConditionDesDiv.appendChild(conDesDiv);
+  conDesDiv.className;
+  //sets text of inner weather condition description div
+  let conDesText = document.createTextNode(`${state.weatherDescription}`);
+  conDesDiv.appendChild(conDesText);
 
   //other info div
   //add the icon here
-  //give hefty margin
+  let weatherIconDiv = document.createElement('div');
+  weatherDiv.appendChild(weatherIconDiv);
+  weatherIconDiv.className;
+  let weatherIconImg = document.createElement('img');
+  weatherIconDiv.appendChild(weatherIconImg);
+  weatherIconImg.src = `http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png`;
+
+
+
 
 }
+
+
+
+/*This might be useful later
+function setType(e) {
+  console.log(e.target.value);
+  state.type = e.target.value;
+  console.log(state);
+}
+
+function createItem() {
+    getData();  
+    //document.getElementById('activityDiv').innerHTML = `Activity: ${state.activity}!<br>Type: ${state.type} <br>Price Range: ${state.price}`;
+}
+
+document.getElementById('activeType').addEventListener('change', setType)
+*/
