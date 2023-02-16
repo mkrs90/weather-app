@@ -119,4 +119,8 @@ Div- that contains api content
 9. set up state
 10. set up different functions
 
+11. set up function that converts temp
+12. seperate out showWeather() and getData on click. 
+13. Need a way to take zip and use in getData();
+
 

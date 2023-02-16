@@ -23,8 +23,9 @@ window.onload = function createStartPage() {
   titleTag.className = "display-1";
 
   //Parent div for the input and button
-  let inputDiv = document.createElement('div');
+  let inputDiv = document.createElement('form');
   main.appendChild(inputDiv);
+  inputDiv.id = "form";
   inputDiv.className = 'mb-5 text-center'
 
   //creation of zip code input field
@@ -37,7 +38,7 @@ window.onload = function createStartPage() {
 
   //creation of submit button
   let submitBtn = document.createElement('button');
-  submitBtn.type = 'button';
+  submitBtn.type = 'submit';
   submitBtn.className = "btn btn-info";
   let btnText = document.createTextNode("Get Weather");
   submitBtn.appendChild(btnText);
@@ -50,24 +51,28 @@ window.onload = function createStartPage() {
 }
 
 function getWeather() {
-  showWeather();
+  populateWeather();
 };
 
-
 let state = {
-    //start here by inputting what you want to pull from the api (temp, city, ...)
-    city: null, //response.data.name
-    temperature: {
-      kelvin: null, //response.data.main.temp
-      fahrenheit: null, //will have to run through function
-      celsius: null, //will have to run through function
-    },
-    weatherCondition: null, //response.data.weather.main
-    weatherDescription: null, //response.data.weather.description
-    weatherIcon: null, //response.data.weather.icon
-    zip: '47150',
-    //hidden vs shown upon click
-  }
+  //start here by inputting what you want to pull from the api (temp, city, ...)
+  city: null, //response.data.name
+  temperature: {
+    kelvin: null, //response.data.main.temp
+    fahrenheit: convertToF(this.kelvin), //will have to run through function
+    celsius: null, //will have to run through function
+  },
+  weatherCondition: null, //response.data.weather.main
+  weatherDescription: null, //response.data.weather.description
+  weatherIcon: null, //response.data.weather.icon
+  zip: '47150',
+  //hidden vs shown upon click
+}
+
+
+
+
+
 
 function getData() {
     let options = {
@@ -88,7 +93,7 @@ function getData() {
         state.weatherDescription = response.data.weather[0].description;
         state.weatherIcon = response.data.weather[0].icon;
         console.log(state);
-        document.getElementById('activityDiv').innerHTML = `Activity: ${state.activity}!<br>Type: ${state.type} <br>Price Range: ${state.price}`;
+        showWeather();
       })
       .catch(function (error) {
         console.log(error);
@@ -98,12 +103,21 @@ function getData() {
     });
   }
 
-  //create function that changes kelvin into F and C
+    //create function that changes kelvin into F and C
+    function convertToF(num) {
+      let f = Math.floor((num - 273.15) * 9/5 + 32)
+      return f;
+    };
+  
+    function convertToC(num) {
+      let c = Math.floor(num - 273.15);
+      return c;
+    };
 
+   
+    
   //Set up the html elements for the information from the API after button click! 
 function showWeather() {
-
-  getData();
 
   let weatherDiv = document.createElement('div');
   main.appendChild(weatherDiv);
@@ -129,17 +143,17 @@ function showWeather() {
   let kelvinDiv = document.createElement('div');
   kelvinDiv.className = 'col-4';
   tempDiv.appendChild(kelvinDiv);
-  let kText = document.createTextNode(`${state.temperature.kelvin}`);
+  let kText = document.createTextNode(`${Math.floor(state.temperature.kelvin)}k`);
   kelvinDiv.appendChild(kText);
   let fahrenheitDiv = document.createElement('div');
   fahrenheitDiv.className = 'col-4';
   tempDiv.appendChild(fahrenheitDiv);
-  let fText = document.createTextNode(`${state.temperature.fahrenheit}`);
+  let fText = document.createTextNode(`${convertToF(state.temperature.kelvin)}f`);
   fahrenheitDiv.appendChild(fText);
   let celsiusDiv = document.createElement('div');
   celsiusDiv.className = 'col-4';
   tempDiv.appendChild(celsiusDiv);
-  let cText = document.createTextNode(`${state.temperature.celsius}`);
+  let cText = document.createTextNode(`${convertToC(state.temperature.kelvin)}c`);
   celsiusDiv.appendChild(cText);
   
 
@@ -175,25 +189,16 @@ function showWeather() {
   let weatherIconImg = document.createElement('img');
   weatherIconDiv.appendChild(weatherIconImg);
   weatherIconImg.src = `http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png`;
-
-
-
-
 }
 
+// function setZip(e) {
+//   console.log(e.targe.value)
+//   // state.zip;
+//   // return state.zip;
+// }
 
+// function populateWeather() {
+//   getData();
+// }
 
-/*This might be useful later
-function setType(e) {
-  console.log(e.target.value);
-  state.type = e.target.value;
-  console.log(state);
-}
-
-function createItem() {
-    getData();  
-    //document.getElementById('activityDiv').innerHTML = `Activity: ${state.activity}!<br>Type: ${state.type} <br>Price Range: ${state.price}`;
-}
-
-document.getElementById('activeType').addEventListener('change', setType)
-*/
+// document.getElementById('form').addEventListener('submit', setZip);
