@@ -13,6 +13,8 @@ let state = {
   weatherDescription: null, //response.data.weather.description
   weatherIcon: null, //response.data.weather.icon
   zip: '47150',
+  errorStatus: false,
+  errorMessage: "",
   //hidden vs shown upon click
 }
 
@@ -53,49 +55,69 @@ window.onload = function createStartPage() {
   //creation of submit button
   let submitBtn = document.createElement('button');
   submitBtn.type = 'submit';
-  submitBtn.className = "btn btn-info";
+  submitBtn.className = "btn btn-info mb-2";
   let btnText = document.createTextNode("Get Weather");
   submitBtn.appendChild(btnText);
   inputDiv.appendChild(submitBtn);
 
+  // let errorDiv = document.createElement('div');
+  // errorDiv.className = "me-5 mb-5";
+  // main.appendChild(errorDiv);
+  // errorDiv.style.display = `${state.hideShowMessage}`;
+  // let errorMessageDiv = document.createElement('div');
+  // errorDiv.appendChild(errorMessageDiv);
+  // let errorMessage = document.createTextNode(`${state.error}`);
+  // errorMessageDiv.appendChild(errorMessage); 
+  // errorMessageDiv.className = "text-center pe-5 me-5 text-danger h6";
+
   let errorDiv = document.createElement('div');
-  errorDiv.className = "me-5 ";
+  errorDiv.className = "me-5 mb-5";
+  errorDiv.id = 'errorDiv';
   main.appendChild(errorDiv);
+  errorDiv.style.display = `None`;
   let errorMessageDiv = document.createElement('div');
   errorDiv.appendChild(errorMessageDiv);
-  let errorMessage = document.createTextNode("Please enter valid zip code.");
-  errorMessageDiv.appendChild(errorMessage); 
+  let errorMessageTextNode = document.createTextNode(`${state.error}`);
+  console.log(errorMessageTextNode);
+  errorMessageDiv.appendChild(errorMessageTextNode); 
   errorMessageDiv.className = "text-center pe-5 me-5 text-danger h6";
+  errorMessageDiv.id = 'errorMessageTextNode';
+
+  renderWeatherPane();
+
   //calls getWeather on button click
   // inputDiv.addEventListener('click', getWeather);
   // state.zip = document.getElementsByTagName('input').value;
-  submitBtn.addEventListener('click', getWeather);
+  submitBtn.addEventListener('click', handleGetWeatherBtnClick);
+
+
 }
 
 
-function getWeather() {
+function handleGetWeatherBtnClick() {
   let newZip = document.getElementById('zipCodeBox').value;
-  // validateZipCode();
-  populateWeather(newZip);
-};
+  //reset error state
+  state.errorStatus = false;
+  state.errorMessage = "";
+  getWeatherData(newZip);
 
-// function validateZipCode() {
-//     zipInput.placeholder = "PLEASE ENTER VALID ZIP CODE";
+// if (state.errorStatus === true) {
+//   let errorDiv = document.getElementById('errorDiv');
+//   errorDiv.style.display = 'block';
+//   let errorMessageDiv = document.getElementById('errorMessage');
+//   errorMessageDiv.innerHTML = `Error: ${state.error}`;
+// } else {
+//   populateWeather(newZip);
 // }
 
+  
+};
 
-
-
-
-
-
-
-
-function getData() {
+function getWeatherData(zip) {
     let options = {
       baseURL: BASE_URL,
       params: {
-        zip: state.zip,
+        zip: zip,
         country: 'us',
         appid: API_KEY
       }
@@ -110,14 +132,15 @@ function getData() {
         state.weatherDescription = response.data.weather[0].description;
         state.weatherIcon = response.data.weather[0].icon;
         console.log(state);
-        showWeather();
       })
       .catch(function (error) {
         console.log(error);
-        alert(error);
+        state.errorStatus = true;
+        state.error = error.response.data.message;
       })
       .finally(function () {
         // always executed
+        displayWeatherDataResult();
     });
   }
 
@@ -132,62 +155,64 @@ function getData() {
       return c;
     };
 
+
+
    
     
   //Set up the html elements for the information from the API after button click! 
-function showWeather() {
+function renderWeatherPane() {
 
   let weatherDiv = document.createElement('div');
   main.appendChild(weatherDiv);
   weatherDiv.className = "m-5 text-center";
-  weatherDiv.style.border = "solid 2px"
-  //city div
-  //create city H1 
-  //append to div
+  weatherDiv.style.border = "solid 2px";
+  weatherDiv.id = "weatherDiv";
+  weatherDiv.style.display = "none";
+
   let cityDiv = document.createElement('div');
   cityDiv.className = "display-3 mt-5";
   weatherDiv.appendChild(cityDiv);
-  let cityTag = document.createElement('h2');
-  let cityText = document.createTextNode(`${state.city}`);
-  cityDiv.appendChild(cityTag.appendChild(cityText));
+  let cityTag = document.createElement('h2'); //wtf
+  let cityText = document.createTextNode(`City`); //wwtyf
+  cityDiv.appendChild(cityTag.appendChild(cityText)); //help me
+  cityDiv.id = 'cityDiv';
   cityTag.className;
 
-  //temp div
-  //needs 3 columns
-  //append to div
+ 
   let tempDiv = document.createElement('div');
   tempDiv.className = "d-flex flex-row justify-content-evenly display-5 mt-5 mb-5";
   weatherDiv.appendChild(tempDiv);
   let kelvinDiv = document.createElement('div');
   kelvinDiv.className = 'col-4';
+  kelvinDiv.id = 'kelvinDiv';
   tempDiv.appendChild(kelvinDiv);
-  let kText = document.createTextNode(`${Math.floor(state.temperature.kelvin)}k`);
+  let kText = document.createTextNode(`K`);
   kelvinDiv.appendChild(kText);
   let fahrenheitDiv = document.createElement('div');
   fahrenheitDiv.className = 'col-4';
+  fahrenheitDiv.id = 'fahrenheitDiv';
   tempDiv.appendChild(fahrenheitDiv);
-  let fText = document.createTextNode(`${convertToF(state.temperature.kelvin)}f`);
+  let fText = document.createTextNode(`F`);
   fahrenheitDiv.appendChild(fText);
   let celsiusDiv = document.createElement('div');
   celsiusDiv.className = 'col-4';
+  celsiusDiv.id = 'celsiusDiv';
   tempDiv.appendChild(celsiusDiv);
-  let cText = document.createTextNode(`${convertToC(state.temperature.kelvin)}c`);
+  let cText = document.createTextNode(`C`);
   celsiusDiv.appendChild(cText);
   
 
-  //condition div
-  //add main condition
-  //add condition description
   let wConditionDiv = document.createElement('div');
   weatherDiv.appendChild(wConditionDiv);
   wConditionDiv.className;
   let conDiv = document.createElement('div');
   wConditionDiv.appendChild(conDiv);
   conDiv.className;
-  let conText = document.createTextNode(`${state.weatherCondition}`);
+  conDiv.id = 'conDiv';
+  let conText = document.createTextNode(`weather condition`);
   conDiv.appendChild(conText);
 
-  //outter div for weather condition
+  //outer div for weather condition
   let wConditionDesDiv = document.createElement('div');
   weatherDiv.appendChild(wConditionDesDiv);
   wConditionDesDiv.className;
@@ -195,8 +220,9 @@ function showWeather() {
   let conDesDiv = document.createElement('div');
   wConditionDesDiv.appendChild(conDesDiv);
   conDesDiv.className;
+  conDesDiv.id = 'conDesDiv';
   //sets text of inner weather condition description div
-  let conDesText = document.createTextNode(`${state.weatherDescription}`);
+  let conDesText = document.createTextNode(`des`);
   conDesDiv.appendChild(conDesText);
 
   //other info div
@@ -206,7 +232,8 @@ function showWeather() {
   weatherIconDiv.className;
   let weatherIconImg = document.createElement('img');
   weatherIconDiv.appendChild(weatherIconImg);
-  weatherIconImg.src = `http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png`;
+  weatherIconImg.src;
+  weatherIconImg.id = 'weatherIconImg';
 }
 
 // function setZip() {
@@ -215,9 +242,33 @@ function showWeather() {
 //   // return state.zip;
 // }
 
-function populateWeather(zipCodeQuery) {
-  state.zip = zipCodeQuery;
-  getData();
+function displayWeatherDataResult() {
+  if (state.errorStatus === true) {
+    let errorDiv = document.getElementById('errorDiv');
+    errorDiv.style.display = 'block';
+    let errorMessageDiv = document.getElementById('errorMessageTextNode');
+    errorMessageDiv.innerText = `Error: ${state.error}`;
+    let weatherPane = document.getElementById('weatherDiv');
+    weatherPane.style.display = "none";
+  } else {
+    document.getElementById('cityDiv').innerText = `${state.city}`;
+    document.getElementById('kelvinDiv').innerText = `${Math.floor(state.temperature.kelvin)}k`;
+    document.getElementById('fahrenheitDiv').innerText = `${convertToF(state.temperature.kelvin)}f`;
+    document.getElementById('celsiusDiv').innerText = `${convertToC(state.temperature.kelvin)}c`;
+    document.getElementById('conDiv').innerText = `${state.weatherCondition}`;
+    document.getElementById('conDesDiv').innerText = `${state.weatherDescription}`;
+    document.getElementById('weatherIconImg').src = `http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png`;
+    let weatherPane = document.getElementById('weatherDiv');
+    weatherPane.style.display = "block";
+    let errorDiv = document.getElementById('errorDiv');
+    errorDiv.style.display = 'none';
+  }
 }
 
+
+// function validateZipCode(newZip) {
+//   //Code to test if newZip
+
+//   return false;
+// }
 // document.getElementById('form').addEventListener('submit', setZip);
