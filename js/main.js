@@ -1,7 +1,20 @@
 const API_KEY = '55c2fecd650724ce09bf1acb1efb65d5';
 const BASE_URL = 'https://api.openweathermap.org';
 
-
+let state = {
+  //start here by inputting what you want to pull from the api (temp, city, ...)
+  city: null, //response.data.name
+  temperature: {
+    kelvin: null, //response.data.main.temp
+    fahrenheit: null, //will have to run through function
+    celsius: null, //will have to run through function
+  },
+  weatherCondition: null, //response.data.weather.main
+  weatherDescription: null, //response.data.weather.description
+  weatherIcon: null, //response.data.weather.icon
+  zip: '47150',
+  //hidden vs shown upon click
+}
 
 //code to set up input/start screen
 window.onload = function createStartPage() {
@@ -25,12 +38,14 @@ window.onload = function createStartPage() {
   let inputDiv = document.createElement('div');
   main.appendChild(inputDiv);
   // inputDiv.id = "form";
-  inputDiv.className = 'mb-5 text-center'
+  inputDiv.className = 'text-center'
 
   //creation of zip code input field
   let zipInput = document.createElement('input');
   zipInput.type = "text";
+  zipInput.id = 'zipCodeBox';
   zipInput.className = "p-1 me-5";
+  zipInput.minLength = "5";
   zipInput.maxLength = "5";
   zipInput.placeholder = "Enter 5 digit zip code"
   inputDiv.appendChild(zipInput);
@@ -43,30 +58,33 @@ window.onload = function createStartPage() {
   submitBtn.appendChild(btnText);
   inputDiv.appendChild(submitBtn);
 
-  
-
+  let errorDiv = document.createElement('div');
+  errorDiv.className = "me-5 ";
+  main.appendChild(errorDiv);
+  let errorMessageDiv = document.createElement('div');
+  errorDiv.appendChild(errorMessageDiv);
+  let errorMessage = document.createTextNode("Please enter valid zip code.");
+  errorMessageDiv.appendChild(errorMessage); 
+  errorMessageDiv.className = "text-center pe-5 me-5 text-danger h6";
   //calls getWeather on button click
+  // inputDiv.addEventListener('click', getWeather);
+  // state.zip = document.getElementsByTagName('input').value;
   submitBtn.addEventListener('click', getWeather);
 }
 
+
 function getWeather() {
-  populateWeather();
+  let newZip = document.getElementById('zipCodeBox').value;
+  // validateZipCode();
+  populateWeather(newZip);
 };
 
-let state = {
-  //start here by inputting what you want to pull from the api (temp, city, ...)
-  city: null, //response.data.name
-  temperature: {
-    kelvin: null, //response.data.main.temp
-    fahrenheit: convertToF(this.kelvin), //will have to run through function
-    celsius: null, //will have to run through function
-  },
-  weatherCondition: null, //response.data.weather.main
-  weatherDescription: null, //response.data.weather.description
-  weatherIcon: null, //response.data.weather.icon
-  zip: '47150',
-  //hidden vs shown upon click
-}
+// function validateZipCode() {
+//     zipInput.placeholder = "PLEASE ENTER VALID ZIP CODE";
+// }
+
+
+
 
 
 
@@ -96,6 +114,7 @@ function getData() {
       })
       .catch(function (error) {
         console.log(error);
+        alert(error);
       })
       .finally(function () {
         // always executed
@@ -190,13 +209,14 @@ function showWeather() {
   weatherIconImg.src = `http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png`;
 }
 
-// function setZip(e) {
-//   console.log(e.targe.value)
+// function setZip() {
+//   state.zip = "42303";
 //   // state.zip;
 //   // return state.zip;
 // }
 
-function populateWeather() {
+function populateWeather(zipCodeQuery) {
+  state.zip = zipCodeQuery;
   getData();
 }
 
