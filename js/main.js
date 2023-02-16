@@ -7,7 +7,6 @@ const BASE_URL = 'https://api.openweathermap.org';
 window.onload = function createStartPage() {
   //set up page width
   let doc = document.getElementById("main");
-  //doc.style.width = "600px";
   doc.style.border = "solid 2px";
   doc.className = "m-5";
 
@@ -23,9 +22,9 @@ window.onload = function createStartPage() {
   titleTag.className = "display-1";
 
   //Parent div for the input and button
-  let inputDiv = document.createElement('form');
+  let inputDiv = document.createElement('div');
   main.appendChild(inputDiv);
-  inputDiv.id = "form";
+  // inputDiv.id = "form";
   inputDiv.className = 'mb-5 text-center'
 
   //creation of zip code input field
@@ -197,8 +196,8 @@ function showWeather() {
 //   // return state.zip;
 // }
 
-// function populateWeather() {
-//   getData();
-// }
+function populateWeather() {
+  getData();
+}
 
 // document.getElementById('form').addEventListener('submit', setZip);
