@@ -20,16 +20,24 @@ if the zipcode is not correct populate the errorbox with error message from the 
 
 START --> clickbutton() --> outputs zipcode
 input zipcode --> API call getWeatherData() --> outputs response from api (both data and errors)
-input api response --> funtion that displays the weather data or error - END
+input api response --> function that displays the weather data or error - END
 
 
 
-## Questions
-    - How do we make sure the input only contains integers and can only contain 5 characters? When should we clear out the input or should we?
-    - What endpoint are we using from the API? Are there query parameters to send over? Where do I put the API Key?
-    - What happens when we enter new information for the second time? 
-    - When I click the button does it always automatically hide the bottom pane?
+## Questions/Answers
+    Q: How do we make sure the input only contains integers and can only contain 5 characters? When should we clear out the input or should we?
+    A: the api will handle the errors - just have an error handler
 
+    Q: What endpoint are we using from the API? Are there query parameters to send over? Where do I put the API Key?
+    A:  City Name = response.data.name
+        Kelvin Temp = response.data.weather[0].main
+        Weather Condition = response.data.weather[0].description
+        Weather Description = response.data.weather[0].description
+        Weather Icon = response.data.weather[0].icon
+        state.error = error.response.data.message
+
+    Q: What happens when we enter new information for the second time?
+    A: It appends it to the end of the page. It needs to be refreshed upon button click.
 
 ## HTML/CSS
     Conditional rendering
