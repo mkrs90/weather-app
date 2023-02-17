@@ -83,6 +83,81 @@ window.onload = function createStartPage() {
 };
 
 
+/*Set up the html elements for the information from the API
+after button click! Function is called in initial setup function */
+function renderWeatherPane() {
+  //sets up html that contains all weather components
+  let weatherDiv = document.createElement('div');
+  weatherDiv.className = "m-5 text-center";
+  weatherDiv.style.border = "solid 2px";
+  weatherDiv.id = "weatherDiv";
+  weatherDiv.style.display = "none";
+  main.appendChild(weatherDiv);
+
+  //creation of html div that holds the city name
+  let cityDiv = document.createElement('div');
+  cityDiv.className = "display-3 mt-3 pb-3 border-bottom border-dark";
+  cityDiv.innerText = "City";
+  cityDiv.id = 'cityDiv';
+  weatherDiv.appendChild(cityDiv);
+
+  //sets up div that contains the 3 different temperatures 
+  let tempDiv = document.createElement('div');
+  tempDiv.className = "d-flex flex-row justify-content-evenly display-5 mt-3 mb-3";
+  weatherDiv.appendChild(tempDiv);
+
+  //Kelvin Column
+  let kelvinDiv = document.createElement('div');
+  kelvinDiv.className = 'col-4';
+  kelvinDiv.id = 'kelvinDiv';
+  kelvinDiv.innerText = "K";
+  tempDiv.appendChild(kelvinDiv);
+
+  //Fahrenheit Column
+  let fahrenheitDiv = document.createElement('div');
+  fahrenheitDiv.className = 'col-4';
+  fahrenheitDiv.id = 'fahrenheitDiv';
+  fahrenheitDiv.innerText = "F";
+  tempDiv.appendChild(fahrenheitDiv);
+
+  //Celsius Column
+  let celsiusDiv = document.createElement('div');
+  celsiusDiv.className = 'col-4';
+  celsiusDiv.id = 'celsiusDiv';
+  celsiusDiv.innerText = "C";
+  tempDiv.appendChild(celsiusDiv);
+  
+  //Div that contains the weather condition and Description
+  let wConditionDiv = document.createElement('div');
+  wConditionDiv.className = "border border-dark m-3";
+  weatherDiv.appendChild(wConditionDiv);
+
+  //Div that holds main weather condition
+  let conDiv = document.createElement('div');
+  conDiv.innerText = "Weather Condition";
+  conDiv.className = "display-6 border-bottom border-dark";
+  conDiv.id = 'conDiv';
+  wConditionDiv.appendChild(conDiv);
+
+  //inner div for weather condition description
+  let conDesDiv = document.createElement('div');
+  conDesDiv.innerText = "Weather Description";
+  conDesDiv.id = 'conDesDiv';
+  wConditionDiv.appendChild(conDesDiv);
+
+  //creates div that holds the weather icon img
+  let weatherIconDiv = document.createElement('div');
+  weatherIconDiv.className = "mb-3";
+  weatherDiv.appendChild(weatherIconDiv);
+  
+  //creation of api weather icon in html
+  let weatherIconImg = document.createElement('img');
+  weatherIconImg.src = "";
+  weatherIconImg.id = 'weatherIconImg';
+  weatherIconDiv.appendChild(weatherIconImg);
+};
+
+
 function handleGetWeatherBtnClick() {
   //sets zip code input to reusable variable
   let newZip = document.getElementById('zipCodeBox').value;
@@ -140,79 +215,6 @@ function convertToF(num) {
 function convertToC(num) {
   let c = Math.floor(num - 273.15);
   return c;
-};
-
-    
-/*Set up the html elements for the information from the API
-after button click! Function is called in initial setup function */
-function renderWeatherPane() {
-  //sets up html that contains all weather components
-  let weatherDiv = document.createElement('div');
-  weatherDiv.className = "m-5 text-center";
-  weatherDiv.style.border = "solid 2px";
-  weatherDiv.id = "weatherDiv";
-  weatherDiv.style.display = "none";
-  main.appendChild(weatherDiv);
-
-  //creation of html div that holds the city name
-  let cityDiv = document.createElement('div');
-  cityDiv.className = "display-3 mt-5";
-  cityDiv.innerText = "City";
-  cityDiv.id = 'cityDiv';
-  weatherDiv.appendChild(cityDiv);
-
-  //sets up div that contains the 3 different temperatures 
-  let tempDiv = document.createElement('div');
-  tempDiv.className = "d-flex flex-row justify-content-evenly display-5 mt-5 mb-5";
-  weatherDiv.appendChild(tempDiv);
-
-  //Kelvin Column
-  let kelvinDiv = document.createElement('div');
-  kelvinDiv.className = 'col-4';
-  kelvinDiv.id = 'kelvinDiv';
-  kelvinDiv.innerText = "K";
-  tempDiv.appendChild(kelvinDiv);
-
-  //Fahrenheit Column
-  let fahrenheitDiv = document.createElement('div');
-  fahrenheitDiv.className = 'col-4';
-  fahrenheitDiv.id = 'fahrenheitDiv';
-  fahrenheitDiv.innerText = "F";
-  tempDiv.appendChild(fahrenheitDiv);
-
-  //Celsius Column
-  let celsiusDiv = document.createElement('div');
-  celsiusDiv.className = 'col-4';
-  celsiusDiv.id = 'celsiusDiv';
-  celsiusDiv.innerText = "C";
-  tempDiv.appendChild(celsiusDiv);
-  
-  //Div that contains the weather condition and Description
-  let wConditionDiv = document.createElement('div');
-  weatherDiv.appendChild(wConditionDiv);
-  wConditionDiv.className;
-
-  //Div that holds main weather condition
-  let conDiv = document.createElement('div');
-  wConditionDiv.appendChild(conDiv);
-  conDiv.innerText = "Weather Condition";
-  conDiv.id = 'conDiv';
-
-  //inner div for weather condition description
-  let conDesDiv = document.createElement('div');
-  conDesDiv.innerText = "Weather Description";
-  conDesDiv.id = 'conDesDiv';
-  wConditionDiv.appendChild(conDesDiv);
-
-  //creates div that holds the weather icon img
-  let weatherIconDiv = document.createElement('div');
-  weatherDiv.appendChild(weatherIconDiv);
-  
-  //creation of api weather icon in html
-  let weatherIconImg = document.createElement('img');
-  weatherIconImg.src = "";
-  weatherIconImg.id = 'weatherIconImg';
-  weatherIconDiv.appendChild(weatherIconImg);
 };
 
 
