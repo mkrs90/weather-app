@@ -1,5 +1,29 @@
 # Pseudocode for weather-app
 
+
+What needs to happen overview: 
+
+render the website when the website loads
+onload renderWebsite();  
+       renderErrorBox();
+       renderWeatherPane();
+
+User will enter zipcode into input box 
+user will click submit "Get Weather"
+zip code will be sent through api
+api will send back response with appropriate data
+data will populate the weatherPane();
+make the weatherPane visible to the user when available 
+
+if the zipcode is not correct populate the errorbox with error message from the api call.
+
+
+START --> clickbutton() --> outputs zipcode
+input zipcode --> API call getWeatherData() --> outputs response from api (both data and errors)
+input api response --> funtion that displays the weather data or error - END
+
+
+
 ## Questions
     - How do we make sure the input only contains integers and can only contain 5 characters? When should we clear out the input or should we?
     - What endpoint are we using from the API? Are there query parameters to send over? Where do I put the API Key?

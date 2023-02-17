@@ -25,6 +25,7 @@ window.onload = function createStartPage() {
   //set up page width
   let doc = document.getElementById("main");
   doc.style.border = "solid 2px";
+  doc.style.background = "lightblue";
   doc.className = "m-5";
 
   //Parent div for the title
@@ -57,7 +58,7 @@ window.onload = function createStartPage() {
   let submitBtn = document.createElement('button');
   submitBtn.type = 'submit';
   submitBtn.innerText = "Get Weather";
-  submitBtn.className = "btn btn-info mb-2";
+  submitBtn.className = "btn btn-primary mb-2";
   inputDiv.appendChild(submitBtn);  
 
   //creation of error message container in html
