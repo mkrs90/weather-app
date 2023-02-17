@@ -1,11 +1,43 @@
 # Pseudocode for weather-app
 
-## Questions
-    - How do we make sure the input only contains integers and can only contain 5 characters? When should we clear out the input or should we?
-    - What endpoint are we using from the API? Are there query parameters to send over? Where do I put the API Key?
-    - What happens when we enter new information for the second time? 
-    - When I click the button does it always automatically hide the bottom pane?
 
+What needs to happen overview: 
+
+render the website when the website loads
+onload renderWebsite();  
+       renderErrorBox();
+       renderWeatherPane();
+
+User will enter zipcode into input box 
+user will click submit "Get Weather"
+zip code will be sent through api
+api will send back response with appropriate data
+data will populate the weatherPane();
+make the weatherPane visible to the user when available 
+
+if the zipcode is not correct populate the errorbox with error message from the api call.
+
+
+START --> clickbutton() --> outputs zipcode
+input zipcode --> API call getWeatherData() --> outputs response from api (both data and errors)
+input api response --> function that displays the weather data or error - END
+
+
+
+## Questions/Answers
+    Q: How do we make sure the input only contains integers and can only contain 5 characters? When should we clear out the input or should we?
+    A: the api will handle the errors - just have an error handler
+
+    Q: What endpoint are we using from the API? Are there query parameters to send over? Where do I put the API Key?
+    A:  City Name = response.data.name
+        Kelvin Temp = response.data.weather[0].main
+        Weather Condition = response.data.weather[0].description
+        Weather Description = response.data.weather[0].description
+        Weather Icon = response.data.weather[0].icon
+        state.error = error.response.data.message
+
+    Q: What happens when we enter new information for the second time?
+    A: It appends it to the end of the page. It needs to be refreshed upon button click.
 
 ## HTML/CSS
     Conditional rendering
